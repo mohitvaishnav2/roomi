@@ -6,13 +6,23 @@ enum AppTab: Int, CaseIterable {
 }
 
 // MARK: - Root Navigation Hub
-/// After onboarding/auth, this becomes the authenticated shell.
-/// Switch ContentView body to MainTabView() when auth is complete.
 struct ContentView: View {
+    @EnvironmentObject var auth: AuthManager
+
     var body: some View {
-        MainTabView()
+        Group {
+            if auth.isLoggedIn {
+                MainTabView()
+            } else {
+                NavigationStack {
+                    WelcomeView()
+                }
+            }
+        }
+        .animation(.easeInOut(duration: 0.3), value: auth.isLoggedIn)
     }
 }
+
 
 // MARK: - Main Tab View
 struct MainTabView: View {
