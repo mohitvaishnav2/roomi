@@ -1,14 +1,15 @@
 import SwiftUI
 
 // MARK: - Login / Welcome Screen
-/// Converted from the "Welcome Back" HTML login page.
-/// Warm Material-3 palette, full-bleed hero image with rounded bottom card.
 struct WelcomeView: View {
 
-    @State private var email           = ""
-    @State private var password        = ""
-    @State private var isPasswordVisible = false
-    @State private var navigateToSignUp  = false
+    @EnvironmentObject var auth: AuthManager
+    @State private var email              = ""
+    @State private var password           = ""
+    @State private var isPasswordVisible  = false
+    @State private var navigateToSignUp   = false
+    @State private var showResetAlert     = false
+    @State private var resetEmail         = ""
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -23,9 +24,20 @@ struct WelcomeView: View {
         .navigationDestination(isPresented: $navigateToSignUp) {
             CreateAccountView()
         }
+        .alert("Reset Password", isPresented: $showResetAlert) {
+            TextField("Your email", text: $resetEmail)
+                .keyboardType(.emailAddress)
+                .autocapitalization(.none)
+            Button("Send Link") {
+                Task { await auth.sendPasswordReset(email: resetEmail) }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Enter your email and we'll send a reset link.")
+        }
     }
 
-    // MARK: - Hero Image (397 dp)
+    // MARK: - Hero Image
     private var heroSection: some View {
         ZStack(alignment: .topLeading) {
             AsyncImage(url: URL(string: "https://lh3.googleusercontent.com/aida-public/AB6AXuA58dUJ_BumaovU5HPByIunPOQzEBSy1_Nhx0YcsiuoUQMrCDc0abr03Bvp7QpTCRltdVVgURaOLteOn1wBoeTul6rLpHRdnOIZTJYXtrto6atc3abSvLzdxZZeVNXYCfjGIj4Hkn3rCyxr2zULtJsnH-aL3lFn3BrAvsnVCGeZat1rPcFlG9jUrI4roET5V8h8oCTt5hra2ak-WflexV3SN3N6RF6djkih8BdbxB1KH1GCDyCJAELzPA")) { phase in
@@ -42,7 +54,6 @@ struct WelcomeView: View {
             .frame(height: 360)
             .clipped()
 
-            // Back button – glassmorphism style
             Button(action: {}) {
                 Image(systemName: "arrow.left")
                     .font(.system(size: 16, weight: .medium))
@@ -58,10 +69,9 @@ struct WelcomeView: View {
         .frame(height: 360)
     }
 
-    // MARK: - Form Card (overlaps hero by 40 pt)
+    // MARK: - Form Card
     private var formCard: some View {
         VStack(spacing: 0) {
-            // ── Header ────────────────────────────────────────────────────
             VStack(spacing: 8) {
                 Text("Welcome Back")
                     .font(.custom("Quicksand-SemiBold", size: 28))
@@ -72,7 +82,26 @@ struct WelcomeView: View {
                     .foregroundColor(AppTheme.Colors.onSurfaceVariant)
             }
             .padding(.top, 40)
-            .padding(.bottom, 32)
+            .padding(.bottom, 24)
+
+            // ── Error Banner ───────────────────────────────────────────────
+            if let error = auth.errorMessage {
+                HStack(spacing: 8) {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .foregroundColor(.red)
+                    Text(error)
+                        .font(AppTheme.Typography.labelSm)
+                        .foregroundColor(.red)
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 10)
+                .background(Color.red.opacity(0.08))
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                .padding(.horizontal, 24)
+                .padding(.bottom, 16)
+                .transition(.move(edge: .top).combined(with: .opacity))
+            }
 
             // ── Fields ────────────────────────────────────────────────────
             VStack(spacing: 24) {
@@ -138,10 +167,12 @@ struct WelcomeView: View {
                     .background(AppTheme.Colors.surfaceContainer)
                     .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
 
-                    // Forgot password
                     HStack {
                         Spacer()
-                        Button(action: {}) {
+                        Button(action: {
+                            resetEmail = email
+                            showResetAlert = true
+                        }) {
                             Text("Forgot Password?")
                                 .font(AppTheme.Typography.labelSm)
                                 .foregroundColor(AppTheme.Colors.secondary)
@@ -157,14 +188,24 @@ struct WelcomeView: View {
             // ── Actions ───────────────────────────────────────────────────
             VStack(spacing: 24) {
                 // Login CTA
-                Button(action: {}) {
-                    HStack(spacing: 8) {
-                        Text("Login")
-                            .font(AppTheme.Typography.labelMd)
-                        Image(systemName: "arrow.right")
-                            .font(.system(size: 14, weight: .semibold))
+                Button(action: {
+                    Task { await auth.signIn(email: email, password: password) }
+                }) {
+                    ZStack {
+                        HStack(spacing: 8) {
+                            Text("Login")
+                                .font(AppTheme.Typography.labelMd)
+                            Image(systemName: "arrow.right")
+                                .font(.system(size: 14, weight: .semibold))
+                        }
+                        .foregroundColor(AppTheme.Colors.onPrimaryContainer)
+                        .opacity(auth.isLoading ? 0 : 1)
+
+                        if auth.isLoading {
+                            ProgressView()
+                                .tint(AppTheme.Colors.onPrimaryContainer)
+                        }
                     }
-                    .foregroundColor(AppTheme.Colors.onPrimaryContainer)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 18)
                     .background(AppTheme.Colors.primaryContainer)
@@ -172,6 +213,7 @@ struct WelcomeView: View {
                     .shadow(color: Color(hex: "#8C634F").opacity(0.10), radius: 20, x: 0, y: 8)
                 }
                 .buttonStyle(ScaleButtonStyle())
+                .disabled(auth.isLoading)
 
                 // Sign up link
                 HStack(spacing: 4) {
@@ -196,6 +238,7 @@ struct WelcomeView: View {
         .clipShape(RoundedCornerShape(radius: 32, corners: [.topLeft, .topRight]))
         .offset(y: -40)
         .shadow(color: Color(hex: "#8C634F").opacity(0.05), radius: 40, x: 0, y: -10)
+        .animation(.easeInOut(duration: 0.2), value: auth.errorMessage)
     }
 }
 
@@ -225,5 +268,8 @@ struct ScaleButtonStyle: ButtonStyle {
 }
 
 #Preview {
-    WelcomeView()
+    NavigationStack {
+        WelcomeView()
+            .environmentObject(AuthManager())
+    }
 }

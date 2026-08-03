@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0170C61AFE420C7EC2B0BC33 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A57AF98A0B4BE9A5E855E4 /* AuthManager.swift */; };
+		044AB233AF640F2319DABF8A /* home.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7075851A047F44D755AE45 /* home.swift */; };
+		145DC53BBE3DF0294B2FA3A1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C3C0B500CD33EE9ACB3296F9 /* FirebaseAuth */; };
+		34315B259870A000E908B37E /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 965C8240557111C04BBF63E4 /* FirebaseCore */; };
+		3C37B856F15B0DB0BCE42284 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 81A3C0231214D2E2D50F01F3 /* GoogleService-Info.plist */; };
+		3DAE0503182B58317FD13BF0 /* profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54EA574AEE538A870FC2E7 /* profile.swift */; };
+		7087213E7634EB6917E5C4C8 /* roomscanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69734B1D42890DB8F9438B8 /* roomscanner.swift */; };
 		B001 /* RoomiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001 /* RoomiApp.swift */; };
 		B002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A002 /* ContentView.swift */; };
 		B003 /* welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = A003 /* welcome.swift */; };
@@ -15,9 +22,12 @@
 		B006 /* onboard2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A006 /* onboard2.swift */; };
 		B007 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A007 /* Assets.xcassets */; };
 		B008 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A009 /* Theme.swift */; };
+		B1E09D22B6D09A573DD8631D /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1922C5742A0B8C935A333B48 /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B54EA574AEE538A870FC2E7 /* profile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = profile.swift; sourceTree = "<group>"; };
+		81A3C0231214D2E2D50F01F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A001 /* RoomiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomiApp.swift; sourceTree = "<group>"; };
 		A002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A003 /* welcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = welcome.swift; sourceTree = "<group>"; };
@@ -27,7 +37,23 @@
 		A007 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A008 /* Roomi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Roomi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A009 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		B8A57AF98A0B4BE9A5E855E4 /* AuthManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		DB7075851A047F44D755AE45 /* home.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = home.swift; sourceTree = "<group>"; };
+		F69734B1D42890DB8F9438B8 /* roomscanner.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = roomscanner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8558849F26180ADEC5C32095 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				145DC53BBE3DF0294B2FA3A1 /* FirebaseAuth in Frameworks */,
+				34315B259870A000E908B37E /* FirebaseCore in Frameworks */,
+				B1E09D22B6D09A573DD8631D /* FirebaseFirestore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		MAINGROUP = {
@@ -57,6 +83,11 @@
 				A005 /* onboard1.swift */,
 				A006 /* onboard2.swift */,
 				A007 /* Assets.xcassets */,
+				B8A57AF98A0B4BE9A5E855E4 /* AuthManager.swift */,
+				DB7075851A047F44D755AE45 /* home.swift */,
+				F69734B1D42890DB8F9438B8 /* roomscanner.swift */,
+				7B54EA574AEE538A870FC2E7 /* profile.swift */,
+				81A3C0231214D2E2D50F01F3 /* GoogleService-Info.plist */,
 			);
 			path = Roomi;
 			sourceTree = "<group>";
@@ -70,12 +101,18 @@
 			buildPhases = (
 				SRCPHASE /* Sources */,
 				RSRCPHASE /* Resources */,
+				8558849F26180ADEC5C32095 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Roomi;
+			packageProductDependencies = (
+				C3C0B500CD33EE9ACB3296F9 /* FirebaseAuth */,
+				965C8240557111C04BBF63E4 /* FirebaseCore */,
+				1922C5742A0B8C935A333B48 /* FirebaseFirestore */,
+			);
 			productName = Roomi;
 			productReference = A008 /* Roomi.app */;
 			productType = "com.apple.product-type.application";
@@ -104,6 +141,9 @@
 				Base,
 			);
 			mainGroup = MAINGROUP;
+			packageReferences = (
+				A39D723B3020B4E90027A8D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = PRODGROUP /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -119,6 +159,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B007 /* Assets.xcassets in Resources */,
+				3C37B856F15B0DB0BCE42284 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +177,10 @@
 				B004 /* createaccount.swift in Sources */,
 				B005 /* onboard1.swift in Sources */,
 				B006 /* onboard2.swift in Sources */,
+				0170C61AFE420C7EC2B0BC33 /* AuthManager.swift in Sources */,
+				044AB233AF640F2319DABF8A /* home.swift in Sources */,
+				7087213E7634EB6917E5C4C8 /* roomscanner.swift in Sources */,
+				3DAE0503182B58317FD13BF0 /* profile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,7 +310,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = N3G3PZCV9C;
+				DEVELOPMENT_TEAM = LZKGVMKUJC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -278,7 +323,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.N3G3PZCV9C.roomi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lakshyasolanki.roomi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -294,7 +339,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = N3G3PZCV9C;
+				DEVELOPMENT_TEAM = LZKGVMKUJC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -307,7 +352,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.N3G3PZCV9C.roomi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lakshyasolanki.roomi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -337,6 +382,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A39D723B3020B4E90027A8D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.17.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1922C5742A0B8C935A333B48 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A39D723B3020B4E90027A8D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		965C8240557111C04BBF63E4 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A39D723B3020B4E90027A8D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		C3C0B500CD33EE9ACB3296F9 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A39D723B3020B4E90027A8D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = PROJECT /* Project object */;
 }
