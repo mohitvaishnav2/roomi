@@ -41,6 +41,13 @@ enum AppTheme {
         static let outline            = Color(hex: "#817470")
         static let outlineVariant     = Color(hex: "#D3C3BE")
 
+        // Additional surface tokens
+        static let surfaceContainerHighest = Color(hex: "#E7E1DE")
+
+        // On-color extras
+        static let onTertiaryContainer = Color(hex: "#5E6449")
+        static let onError             = Color.white
+
         // Peach brand (Onboarding screens)
         static let peach              = Color(hex: "#F5B7A6")
         static let peachLight         = Color(hex: "#FDEEEA")
