@@ -1,10 +1,9 @@
 import SwiftUI
 
 // MARK: - Create Account Screen
-/// Converted from the "Create Account" HTML design.
-/// Rounded card layout with all sign-up fields, Google SSO stub, and link back to Login.
 struct CreateAccountView: View {
 
+    @EnvironmentObject var auth: AuthManager
     @Environment(\.dismiss) private var dismiss
 
     // Form state
@@ -16,6 +15,7 @@ struct CreateAccountView: View {
     @State private var confirmPassword = ""
     @State private var isPasswordVisible  = false
     @State private var isConfirmVisible   = false
+    @State private var localError: String?
 
     var body: some View {
         ZStack {
@@ -31,6 +31,26 @@ struct CreateAccountView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 0) {
                         formBody
+
+                        // ── Error Banner ──────────────────────────────────
+                        let errorText = localError ?? auth.errorMessage
+                        if let err = errorText {
+                            HStack(spacing: 8) {
+                                Image(systemName: "exclamationmark.circle.fill")
+                                    .foregroundColor(.red)
+                                Text(err)
+                                    .font(.system(size: 13, weight: .medium))
+                                    .foregroundColor(.red)
+                                Spacer()
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 10)
+                            .background(Color.red.opacity(0.08))
+                            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                            .padding(.top, 16)
+                            .transition(.move(edge: .top).combined(with: .opacity))
+                        }
+
                         termsSection
                         signUpButton
                         orDivider
@@ -40,6 +60,7 @@ struct CreateAccountView: View {
                     .padding(.horizontal, 24)
                     .padding(.top, 8)
                     .padding(.bottom, 40)
+                    .animation(.easeInOut(duration: 0.2), value: localError ?? auth.errorMessage)
                 }
             }
             .background(Color.white)
@@ -185,16 +206,32 @@ struct CreateAccountView: View {
 
     // MARK: - Sign Up CTA
     private var signUpButton: some View {
-        Button(action: {}) {
-            Text("Sign Up")
-                .font(.system(size: 17, weight: .bold))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
-                .background(AppTheme.Colors.peach)
-                .clipShape(Capsule())
+        Button(action: {
+            localError = nil
+            auth.errorMessage = nil
+            guard password == confirmPassword else {
+                localError = "Passwords don't match."
+                return
+            }
+            Task { await auth.signUp(email: email, password: password, fullName: fullName) }
+        }) {
+            ZStack {
+                Text("Sign Up")
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundColor(.white)
+                    .opacity(auth.isLoading ? 0 : 1)
+
+                if auth.isLoading {
+                    ProgressView().tint(.white)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 16)
+            .background(AppTheme.Colors.peach)
+            .clipShape(Capsule())
         }
         .buttonStyle(ScaleButtonStyle())
+        .disabled(auth.isLoading)
     }
 
     // MARK: - OR divider
@@ -276,5 +313,6 @@ struct GoogleLogoShape: Shape {
 #Preview {
     NavigationStack {
         CreateAccountView()
+            .environmentObject(AuthManager())
     }
 }
